@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Konten Digital - Interactive</title>
+    <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-main: #0f172a;
+            --bg-panel: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --border: #334155;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 600;
+            background: -webkit-linear-gradient(right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            padding: 25px;
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* MIND MAP / SIDEBAR PANEL */
+        .nav-panel {
+            width: 320px;
+            background: var(--bg-panel);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .central-node {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            line-height: 1.4;
+            flex-shrink: 0;
+        }
+
+        .nodes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        /* Connecting line simulation */
+        .nodes-list::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: -20px;
+            bottom: 20px;
+            width: 2px;
+            background: var(--border);
+            z-index: 0;
+        }
+
+        .node-btn {
+            position: relative;
+            z-index: 1;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 14px 15px 14px 45px;
+            border-radius: 8px;
+            text-align: left;
+            font-family: inherit;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .node-btn::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            width: 14px;
+            height: 14px;
+            background: var(--border);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .node-btn:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .node-btn.active {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent);
+            color: #60a5fa;
+        }
+
+        .node-btn.active::before {
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* CONTENT PANEL */
+        .content-panel {
+            flex: 1;
+            background: var(--bg-panel);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .content-header h2 {
+            font-size: 22px;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            flex-shrink: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .footer {
+            background: var(--bg-panel);
+            padding: 15px 30px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer span {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .btn-print {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
+
+        /* PRINT VIEW STYLES */
+        .print-view {
+            display: none;
+            background: white;
+            color: black;
+            padding: 40px;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .print-view table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        
+        .print-view th, .print-view td {
+            border: 1px solid #94a3b8;
+            padding: 14px;
+            text-align: left;
+        }
+        
+        .print-view th { background: #f1f5f9; color: #0f172a; text-align: center; font-weight: 600; text-transform: uppercase; }
+        
+        .close-print {
+            background: #ef4444; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; margin-bottom: 30px; font-family: inherit; font-weight: 600;
+        }
+        
+        .close-print:hover { background: #dc2626; }
+
+        @media print {
+            body { background: white; }
+            .header, .main-container, .footer { display: none !important; }
+            .print-view { display: block !important; position: static; padding: 0; }
+            .close-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Papan Interaktif Digital: Analisis Konten</h1>
+        <p>Media Presentasi Interaktif Latihan Kelompok — Koding dan Kecerdasan Artifisial</p>
+    </div>
+
+    <div class="main-container">
+        <!-- Sidebar / Mind Map -->
+        <div class="nav-panel">
+            <div class="central-node">
+                Latihan Kelompok<br><small style="font-weight: 400; opacity: 0.9;">Analisis 6 Konten Digital</small>
+            </div>
+            <div class="nodes-list" id="node-list">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- Content Panel -->
+        <div class="content-panel" id="content-panel">
+            <div class="content-header">
+                <h2 id="panel-title">Analisis Konten</h2>
+                <span id="save-status" style="color: var(--success); font-size: 14px; font-weight: 500; opacity: 0; transition: opacity 0.3s;">Data Tersimpan ✓</span>
+            </div>
+            
+            <div class="form-group">
+                <label>Nama Konten</label>
+                <input type="text" id="inp-nama" oninput="autoSave()" placeholder="Masukkan Nama Konten...">
+            </div>
+            <div class="form-group">
+                <label>Jenis Konten</label>
+                <input type="text" id="inp-jenis" oninput="autoSave()" placeholder="Contoh: Video / Audio / Teks...">
+            </div>
+            <div class="form-group">
+                <label>Fungsi</label>
+                <input type="text" id="inp-fungsi" oninput="autoSave()" placeholder="Fungsi utama konten ini...">
+            </div>
+            <div class="form-group">
+                <label>Manfaat</label>
+                <input type="text" id="inp-manfaat" oninput="autoSave()" placeholder="Manfaat yang didapatkan pengguna...">
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>💡 <span>Petunjuk:</span> Klik cabang menu di sebelah kiri → lengkapi data analisis di kanan.</div>
+        <button class="btn-print" onclick="showPrintView()">
+            <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            Lihat & Cetak Tabel
+        </button>
+    </div>
+
+    <!-- Print View -->
+    <div class="print-view" id="print-view">
+        <button class="close-print" onclick="hidePrintView()">← Kembali ke Mode Papan Interaktif</button>
+        <h2 style="text-align: center; color: black; margin-bottom: 8px; font-size: 24px;">Tabel Hasil Analisis Konten Digital</h2>
+        <p style="text-align: center; color: #475569; margin-bottom: 30px; font-size: 16px;">Mata Pelajaran: Koding dan Kecerdasan Artifisial</p>
+        <table>
+            <thead>
+                <tr>
+                    <th width="5%">No</th>
+                    <th width="25%">Nama Konten</th>
+                    <th width="20%">Jenis</th>
+                    <th width="25%">Fungsi</th>
+                    <th width="25%">Manfaat</th>
+                </tr>
+            </thead>
+            <tbody id="print-tbody">
+                <!-- Generated by JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Data Store
+        var appData = [
+            { nama: "Tutorial Merakit PC (YouTube)", jenis: "Video", fungsi: "Media Edukasi Visual", manfaat: "Memahami cara pasang komponen hardware" },
+            { nama: "Video Trik CMD & Jaringan (TikTok)", jenis: "Video Pendek", fungsi: "Edukasi Singkat", manfaat: "Mengetahui shortcut komputer dengan cepat" },
+            { nama: "Infografis Cyber Security (Instagram)", jenis: "Gambar / Teks", fungsi: "Penyebaran Informasi", manfaat: "Meningkatkan kewaspadaan terhadap phising" },
+            { nama: "Podcast Tren Teknologi (Spotify)", jenis: "Audio", fungsi: "Diskusi & Wawasan", manfaat: "Update berita teknologi sambil beraktivitas" },
+            { nama: "Simulasi Jaringan (Cisco Packet Tracer)", jenis: "Aplikasi Interaktif", fungsi: "Media Praktikum Virtual", manfaat: "Memahami topologi jaringan tanpa alat fisik" },
+            { nama: "E-book Modul K3LH (Google Drive)", jenis: "Teks", fungsi: "Referensi Bacaan", manfaat: "Menghemat kertas dan mudah dibaca offline" }
+        ];
+
+        var currentIndex = 0;
+        var timeout = null;
+
+        function init() {
+            renderSidebar();
+            loadData(0);
+        }
+
+        function renderSidebar() {
+            var list = document.getElementById('node-list');
+            list.innerHTML = '';
+            
+            for (var i = 0; i < appData.length; i++) {
+                var item = appData[i];
+                var btn = document.createElement('button');
+                btn.className = 'node-btn ' + (i === currentIndex ? 'active' : '');
+                
+                var shortName = 'Konten ' + (i + 1);
+                if (item.nama && item.nama.length > 0) {
+                    shortName = item.nama;
+                    if (shortName.length > 15) {
+                        shortName = shortName.split(' ')[0] + '...';
+                    }
+                }
+                
+                btn.innerHTML = '<span style="width: 24px; color: var(--text-muted); font-size: 13px;">#' + (i + 1) + '</span> ' + shortName;
+                
+                // Using closure to capture the correct index
+                (function(index) {
+                    btn.onclick = function() { selectNode(index); };
+                })(i);
+                
+                list.appendChild(btn);
+            }
+        }
+
+        function selectNode(index) {
+            currentIndex = index;
+            renderSidebar();
+            loadData(index);
+            
+            // Scroll to top of content panel on mobile/small screens
+            document.getElementById('content-panel').scrollTop = 0;
+        }
+
+        function loadData(index) {
+            document.getElementById('panel-title').innerText = 'Analisis Konten #' + (index + 1);
+            document.getElementById('inp-nama').value = appData[index].nama;
+            document.getElementById('inp-jenis').value = appData[index].jenis;
+            document.getElementById('inp-fungsi').value = appData[index].fungsi;
+            document.getElementById('inp-manfaat').value = appData[index].manfaat;
+        }
+
+        function autoSave() {
+            appData[currentIndex].nama = document.getElementById('inp-nama').value;
+            appData[currentIndex].jenis = document.getElementById('inp-jenis').value;
+            appData[currentIndex].fungsi = document.getElementById('inp-fungsi').value;
+            appData[currentIndex].manfaat = document.getElementById('inp-manfaat').value;
+            
+            var status = document.getElementById('save-status');
+            status.style.opacity = '1';
+            
+            renderSidebar();
+            
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                status.style.opacity = '0';
+            }, 1000);
+        }
+
+        function showPrintView() {
+            var tbody = document.getElementById('print-tbody');
+            tbody.innerHTML = '';
+            
+            for (var i = 0; i < appData.length; i++) {
+                var item = appData[i];
+                var html = '<tr>';
+                html += '<td style="text-align: center; font-weight: bold;">' + (i + 1) + '</td>';
+                html += '<td>' + (item.nama || '-') + '</td>';
+                html += '<td>' + (item.jenis || '-') + '</td>';
+                html += '<td>' + (item.fungsi || '-') + '</td>';
+                html += '<td>' + (item.manfaat || '-') + '</td>';
+                html += '</tr>';
+                tbody.innerHTML += html;
+            }
+            
+            document.getElementById('print-view').style.display = 'block';
+            window.print();
+        }
+
+        function hidePrintView() {
+            document.getElementById('print-view').style.display = 'none';
+        }
+
+        // Initialize when DOM is ready
+        window.onload = init;
+    </script>
+</body>
+</html>
