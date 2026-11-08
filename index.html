@@ -3,474 +3,520 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisis Konten Digital - Interactive</title>
+    <title>Portal Literasi Konten Digital</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
-        /* Import Google Font */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
+        /* =========================================
+           VARIABEL WARNA (MODE TERANG & GELAP)
+           ========================================= */
         :root {
-            --bg-main: #0f172a;
-            --bg-panel: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --border: #334155;
-            --success: #10b981;
+            --bg-color: #fef6f0;
+            --card-bg: #ffffff;
+            --text-color: #2d2a32;
+            --text-muted: #6b6470;
+            --primary-color: #ff7e67;
+            --primary-dark: #e8654d;
+            --accent-lavender: #b8a7f5;
+            --secondary-color: #7dd3c0;
+            --border-color: #f0e4dc;
+            --box-bg: #fff4ec;
+            --shadow-soft: 0 8px 24px rgba(255, 126, 103, 0.15);
+            --shadow-hover: 0 12px 30px rgba(255, 126, 103, 0.25);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+        [data-theme="dark"] {
+            --bg-color: #1a1c23;
+            --card-bg: #252830;
+            --text-color: #f2edf7;
+            --text-muted: #a8a2b3;
+            --primary-color: #ff9a82;
+            --primary-dark: #ff7e67;
+            --accent-lavender: #c4b5fd;
+            --secondary-color: #7dd3c0;
+            --border-color: #34363f;
+            --box-bg: #2e313a;
+            --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.35);
+            --shadow-hover: 0 12px 30px rgba(255, 154, 130, 0.25);
+        }
+
+        /* =========================================
+           RESET & DASAR
+           ========================================= */
+        * {
+            box-sizing: border-box !important;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif !important;
+            background-color: var(--bg-color) !important;
+            color: var(--text-color) !important;
+            padding: 15px !important;
+            line-height: 1.6 !important;
+            transition: background 0.3s, color 0.3s;
         }
 
-        .header {
-            text-align: center;
-            padding: 20px;
-            background: var(--bg-panel);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            z-index: 10;
+        .container {
+            max-width: 900px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
         }
 
-        .header h1 {
-            font-size: 26px;
-            font-weight: 600;
-            background: -webkit-linear-gradient(right, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+        /* =========================================
+           HEADER (BAGIAN ATAS)
+           ========================================= */
+        header {
+            background: linear-gradient(135deg, #ff7e67 0%, #ff9a82 50%, #b8a7f5 100%) !important;
+            color: #ffffff !important;
+            text-align: center !important;
+            padding: 40px 20px 30px !important;
+            border-radius: 20px !important;
+            box-shadow: 0 10px 25px rgba(255, 126, 103, 0.3) !important;
+            margin-bottom: 25px !important;
+            position: relative !important;
         }
 
-        .header p {
-            font-size: 15px;
-            color: var(--text-muted);
+        .dark-toggle {
+            position: absolute !important;
+            top: 15px !important;
+            right: 15px !important;
+            background: rgba(255, 255, 255, 0.3) !important;
+            border: none !important;
+            color: #fff !important;
+            padding: 8px 14px !important;
+            border-radius: 50px !important;
+            cursor: pointer !important;
+            font-weight: 600 !important;
+            font-family: inherit !important;
+            font-size: 0.85rem !important;
+            transition: 0.2s !important;
         }
 
-        .main-container {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-            padding: 25px;
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
+        .dark-toggle:hover {
+            background: rgba(255, 255, 255, 0.5) !important;
         }
 
-        /* MIND MAP / SIDEBAR PANEL */
-        .nav-panel {
-            width: 320px;
-            background: var(--bg-panel);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 25px;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        header h1 {
+            font-size: 1.8rem !important;
+            font-weight: 800 !important;
+            margin-bottom: 10px !important;
         }
 
-        .central-node {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
-            padding: 18px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            line-height: 1.4;
-            flex-shrink: 0;
+        header p {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 0.95rem !important;
+            opacity: 0.95 !important;
+            max-width: 600px !important;
+            margin: 0 auto !important;
         }
 
-        .nodes-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            position: relative;
+        /* =========================================
+           KOTAK PENGERTIAN (INTRO)
+           ========================================= */
+        .intro-section {
+            background-color: var(--card-bg) !important;
+            padding: 25px !important;
+            border-radius: 20px !important;
+            box-shadow: var(--shadow-soft) !important;
+            border: 1px solid var(--border-color) !important;
+            margin-bottom: 25px !important;
         }
 
-        /* Connecting line simulation */
-        .nodes-list::before {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: -20px;
-            bottom: 20px;
-            width: 2px;
-            background: var(--border);
-            z-index: 0;
+        .intro-section h2 {
+            color: var(--primary-color) !important;
+            font-size: 1.3rem !important;
+            margin-bottom: 12px !important;
         }
 
-        .node-btn {
-            position: relative;
-            z-index: 1;
-            background: var(--bg-main);
-            color: var(--text-main);
-            border: 1px solid var(--border);
-            padding: 14px 15px 14px 45px;
-            border-radius: 8px;
-            text-align: left;
-            font-family: inherit;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-weight: 500;
+        .intro-section > p {
+            color: var(--text-muted) !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 0.95rem !important;
+            margin-bottom: 20px !important;
         }
 
-        .node-btn::before {
-            content: '';
-            position: absolute;
-            left: 14px;
-            width: 14px;
-            height: 14px;
-            background: var(--border);
-            border-radius: 50%;
-            transition: all 0.3s ease;
+        .intro-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+            gap: 15px !important;
         }
 
-        .node-btn:hover {
-            border-color: var(--accent);
-            transform: translateX(5px);
+        .intro-box {
+            background-color: var(--box-bg) !important;
+            padding: 15px !important;
+            border-left: 5px solid var(--primary-color) !important;
+            border-radius: 4px 12px 12px 4px !important;
         }
 
-        .node-btn.active {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: var(--accent);
-            color: #60a5fa;
+        .intro-box:nth-child(2) { border-left-color: var(--accent-lavender) !important; }
+        .intro-box:nth-child(3) { border-left-color: var(--secondary-color) !important; }
+
+        .intro-box h4 {
+            color: var(--primary-color) !important;
+            margin-bottom: 8px !important;
+            font-size: 1.05rem !important;
         }
 
-        .node-btn.active::before {
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
+        .intro-box p {
+            font-size: 0.9rem !important;
+            color: var(--text-color) !important;
         }
 
-        /* CONTENT PANEL */
-        .content-panel {
-            flex: 1;
-            background: var(--bg-panel);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            padding: 35px;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        /* =========================================
+           TOMBOL NAVIGASI (TAB MENU)
+           ========================================= */
+        .menu-title {
+            text-align: center !important;
+            font-weight: 600 !important;
+            margin: 25px 0 15px !important;
+            color: var(--text-color) !important;
         }
 
-        .content-header {
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
+        .nav-buttons {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+            gap: 10px !important;
+            margin-bottom: 25px !important;
         }
 
-        .content-header h2 {
-            font-size: 22px;
-            color: #e2e8f0;
-            font-weight: 600;
+        .tab-btn {
+            background-color: var(--card-bg) !important;
+            border: 2px solid var(--border-color) !important;
+            color: var(--text-color) !important;
+            padding: 12px 10px !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            font-family: inherit !important;
+            font-size: 0.9rem !important;
+            cursor: pointer !important;
+            transition: all 0.2s !important;
+            text-align: center !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 5px !important;
         }
 
-        .form-group {
-            margin-bottom: 22px;
-            flex-shrink: 0;
+        .tab-btn:hover {
+            border-color: var(--primary-color) !important;
+            color: var(--primary-color) !important;
+            transform: translateY(-2px) !important;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 15px;
-            color: var(--text-muted);
-            font-weight: 500;
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-lavender)) !important;
+            color: #fff !important;
+            border-color: transparent !important;
+            box-shadow: var(--shadow-hover) !important;
+            transform: translateY(-2px) !important;
         }
 
-        .form-group input {
-            width: 100%;
-            padding: 14px 18px;
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 15px;
-            transition: all 0.3s ease;
+        /* =========================================
+           KARTU KONTEN (ISI TAB)
+           ========================================= */
+        .content-card {
+            background-color: var(--card-bg) !important;
+            padding: 25px !important;
+            border-radius: 20px !important;
+            box-shadow: var(--shadow-soft) !important;
+            border: 1px solid var(--border-color) !important;
+            display: none !important; /* Sembunyikan semua dulu */
         }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        .content-card.active {
+            display: block !important; /* Tampilkan yang aktif */
+            animation: fadeIn 0.4s ease-in-out !important;
         }
 
-        .footer {
-            background: var(--bg-panel);
-            padding: 15px 30px;
-            text-align: center;
-            font-size: 14px;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .footer span {
-            color: #60a5fa;
-            font-weight: 600;
+        .badge {
+            display: inline-block !important;
+            background: rgba(255, 126, 103, 0.15) !important;
+            color: var(--primary-color) !important;
+            padding: 6px 14px !important;
+            border-radius: 50px !important;
+            font-size: 0.8rem !important;
+            font-weight: 800 !important;
+            margin-bottom: 12px !important;
         }
 
-        .btn-print {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* Warna Badge Khusus */
+        #teks .badge { background: rgba(59, 130, 246, 0.15) !important; color: #3b82f6 !important; }
+        #gambar .badge { background: rgba(236, 72, 153, 0.15) !important; color: #ec4899 !important; }
+        #audio .badge { background: rgba(245, 158, 11, 0.18) !important; color: #d97706 !important; }
+        #video .badge { background: rgba(168, 85, 247, 0.15) !important; color: #a855f7 !important; }
+        #animasi .badge { background: rgba(16, 185, 129, 0.15) !important; color: #10b981 !important; }
+        #interaktif .badge { background: rgba(239, 68, 68, 0.15) !important; color: #ef4444 !important; }
+
+        .content-card h3 {
+            font-size: 1.4rem !important;
+            color: var(--text-color) !important;
+            margin-bottom: 10px !important;
         }
 
-        .btn-print:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
-
-        /* PRINT VIEW STYLES */
-        .print-view {
-            display: none;
-            background: white;
-            color: black;
-            padding: 40px;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 100;
-            overflow-y: auto;
+        .content-card > p {
+            color: var(--text-muted) !important;
+            font-family: 'Poppins', sans-serif !important;
+            margin-bottom: 15px !important;
         }
 
-        .print-view table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-            font-size: 14px;
+        .info-box {
+            background-color: var(--box-bg) !important;
+            padding: 15px !important;
+            border-left: 5px solid var(--primary-color) !important;
+            border-radius: 4px 12px 12px 4px !important;
+            margin-bottom: 15px !important;
+            font-size: 0.95rem !important;
+        }
+
+        .info-box strong {
+            color: var(--primary-color) !important;
+        }
+
+        .source-details p {
+            margin-bottom: 5px !important;
+            font-size: 0.95rem !important;
+        }
+
+        .source-link {
+            display: inline-block !important;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+            color: #fff !important;
+            text-decoration: none !important;
+            padding: 10px 20px !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            margin-top: 10px !important;
+            box-shadow: 0 4px 15px rgba(255, 126, 103, 0.3) !important;
+            transition: 0.2s !important;
+        }
+
+        .source-link:hover {
+            transform: translateY(-2px) !important;
+        }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer {
+            text-align: center !important;
+            margin-top: 30px !important;
+            color: var(--text-muted) !important;
+            font-size: 0.85rem !important;
+            font-family: 'Poppins', sans-serif !important;
         }
         
-        .print-view th, .print-view td {
-            border: 1px solid #94a3b8;
-            padding: 14px;
-            text-align: left;
+        footer p {
+            margin-bottom: 5px !important;
         }
-        
-        .print-view th { background: #f1f5f9; color: #0f172a; text-align: center; font-weight: 600; text-transform: uppercase; }
-        
-        .close-print {
-            background: #ef4444; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; margin-bottom: 30px; font-family: inherit; font-weight: 600;
-        }
-        
-        .close-print:hover { background: #dc2626; }
 
-        @media print {
-            body { background: white; }
-            .header, .main-container, .footer { display: none !important; }
-            .print-view { display: block !important; position: static; padding: 0; }
-            .close-print { display: none; }
+        /* =========================================
+           TAMPILAN UNTUK LAYAR HP KECIL
+           ========================================= */
+        @media (max-width: 480px) {
+            body { padding: 10px !important; }
+            header { padding: 35px 15px 25px !important; }
+            header h1 { font-size: 1.5rem !important; }
+            .nav-buttons { grid-template-columns: repeat(2, 1fr) !important; }
+            .content-card { padding: 20px 15px !important; }
+            .dark-toggle { font-size: 0.75rem !important; padding: 6px 10px !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Papan Interaktif Digital: Analisis Konten</h1>
-        <p>Media Presentasi Interaktif Latihan Kelompok — Koding dan Kecerdasan Artifisial</p>
-    </div>
+<div class="container">
+    <header>
+        <button class="dark-toggle" onclick="toggleDarkMode()">🌓 Mode Gelap</button>
+        <h1>🌟 Portal Literasi Konten Digital</h1>
+        <p>Halo, penjelajah digital! 👋 Yuk kenalan sama 6 jenis konten digital dengan cara santai — tanpa ribet, tanpa bosenin.</p>
+    </header>
 
-    <div class="main-container">
-        <!-- Sidebar / Mind Map -->
-        <div class="nav-panel">
-            <div class="central-node">
-                Latihan Kelompok<br><small style="font-weight: 400; opacity: 0.9;">Analisis 6 Konten Digital</small>
+    <section class="intro-section">
+        <h2>📚 Pengertian, Fungsi, & Manfaat Konten Digital</h2>
+        <p>Konten digital adalah segala bentuk data, informasi, atau karya yang disajikan dalam format elektronik dan bisa diakses lewat perangkat digital melalui jaringan internet.</p>
+        
+        <div class="intro-grid">
+            <div class="intro-box">
+                <h4>1. Pengertian</h4>
+                <p>Informasi dalam bentuk file elektronik (teks, gambar, audio, video, animasi, dan sistem interaktif) yang bisa disebarluaskan secara luas.</p>
             </div>
-            <div class="nodes-list" id="node-list">
-                <!-- Generated by JS -->
+            <div class="intro-box">
+                <h4>2. Fungsi</h4>
+                <p>Sarana teknis untuk menyampaikan pesan, data, rekaman peristiwa, hiburan, maupun media edukasi secara efektif ke audiens.</p>
             </div>
-        </div>
-
-        <!-- Content Panel -->
-        <div class="content-panel" id="content-panel">
-            <div class="content-header">
-                <h2 id="panel-title">Analisis Konten</h2>
-                <span id="save-status" style="color: var(--success); font-size: 14px; font-weight: 500; opacity: 0; transition: opacity 0.3s;">Data Tersimpan ✓</span>
-            </div>
-            
-            <div class="form-group">
-                <label>Nama Konten</label>
-                <input type="text" id="inp-nama" oninput="autoSave()" placeholder="Masukkan Nama Konten...">
-            </div>
-            <div class="form-group">
-                <label>Jenis Konten</label>
-                <input type="text" id="inp-jenis" oninput="autoSave()" placeholder="Contoh: Video / Audio / Teks...">
-            </div>
-            <div class="form-group">
-                <label>Fungsi</label>
-                <input type="text" id="inp-fungsi" oninput="autoSave()" placeholder="Fungsi utama konten ini...">
-            </div>
-            <div class="form-group">
-                <label>Manfaat</label>
-                <input type="text" id="inp-manfaat" oninput="autoSave()" placeholder="Manfaat yang didapatkan pengguna...">
+            <div class="intro-box">
+                <h4>3. Manfaat</h4>
+                <p>Memudahkan akses informasi kapan saja dan di mana saja, memperluas wawasan, serta bikin proses belajar jadi lebih menarik.</p>
             </div>
         </div>
+    </section>
+
+    <div class="menu-title">👇 Pilih menu di bawah — langsung kepoin contohnya!</div>
+
+    <div class="nav-buttons">
+        <button class="tab-btn active" onclick="openContent(event, 'teks')">📝 Teks</button>
+        <button class="tab-btn" onclick="openContent(event, 'gambar')">🖼️ Gambar</button>
+        <button class="tab-btn" onclick="openContent(event, 'audio')">🎧 Audio</button>
+        <button class="tab-btn" onclick="openContent(event, 'video')">🎬 Video</button>
+        <button class="tab-btn" onclick="openContent(event, 'animasi')">🎨 Animasi</button>
+        <button class="tab-btn" onclick="openContent(event, 'interaktif')">🎮 Interaktif</button>
     </div>
 
-    <div class="footer">
-        <div>💡 <span>Petunjuk:</span> Klik cabang menu di sebelah kiri → lengkapi data analisis di kanan.</div>
-        <button class="btn-print" onclick="showPrintView()">
-            <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-            Lihat & Cetak Tabel
-        </button>
+    <div id="teks" class="content-card active">
+        <span class="badge">Jenis Konten: Teks</span>
+        <h3>Artikel Berita Online</h3>
+        <p>Konten digital berbasis teks yang menyajikan informasi tertulis secara cepat dan terstruktur melalui jaringan internet.</p>
+        
+        <div class="info-box">
+            <strong>Fungsi:</strong> Menyajikan informasi, laporan peristiwa, atau fakta secara tertulis dan terstruktur menggunakan kata-kata di media internet.<br><br>
+            <strong>Manfaat:</strong> Membaca informasi secara mendalam, melatih literasi membaca, serta memperluas wawasan mengenai kejadian aktual dengan cepat.
+        </div>
+
+        <div class="source-details">
+            <p><strong>Judul Berita:</strong> Kasus penyadapan Presiden Prabowo: Polri tetapkan tersangka baru selain mantan Kapolri Listyo Sigit</p>
+            <p><strong>Aplikasi / Platform:</strong> Browser HP / Situs Berita (BBC News Indonesia)</p>
+            <a class="source-link" href="https://www.bbc.com/indonesia/articles/c39wz0q5djqwo" target="_blank">🔗 Buka Tautan Artikel BBC News</a>
+        </div>
     </div>
 
-    <!-- Print View -->
-    <div class="print-view" id="print-view">
-        <button class="close-print" onclick="hidePrintView()">← Kembali ke Mode Papan Interaktif</button>
-        <h2 style="text-align: center; color: black; margin-bottom: 8px; font-size: 24px;">Tabel Hasil Analisis Konten Digital</h2>
-        <p style="text-align: center; color: #475569; margin-bottom: 30px; font-size: 16px;">Mata Pelajaran: Koding dan Kecerdasan Artifisial</p>
-        <table>
-            <thead>
-                <tr>
-                    <th width="5%">No</th>
-                    <th width="25%">Nama Konten</th>
-                    <th width="20%">Jenis</th>
-                    <th width="25%">Fungsi</th>
-                    <th width="25%">Manfaat</th>
-                </tr>
-            </thead>
-            <tbody id="print-tbody">
-                <!-- Generated by JS -->
-            </tbody>
-        </table>
+    <div id="gambar" class="content-card">
+        <span class="badge">Jenis Konten: Gambar</span>
+        <h3>Poster Digital & Infografis</h3>
+        <p>Konten visual statis yang merangkum informasi dalam bentuk gambar dan desain estetis.</p>
+        
+        <div class="info-box">
+            <strong>Fungsi:</strong> Menyampaikan pesan, data, atau ajakan moral secara visual menggunakan kombinasi warna, ilustrasi, dan tipografi statis.<br><br>
+            <strong>Manfaat:</strong> Membantu otak memahami informasi atau pesan yang rumit dalam waktu singkat tanpa harus membaca teks yang panjang.
+        </div>
+
+        <div class="source-details">
+            <p><strong>Judul / Tema:</strong> Melestarikan Budaya di Era Digital (Beri Kesempatan Budaya Lokal Untuk Dikenal Dunia)</p>
+            <p><strong>Aplikasi / Platform:</strong> Pinterest (Tegar Anugrah)</p>
+            <a class="source-link" href="https://pin.it/45vA35oDh" target="_blank">🔗 Buka Tautan Poster Pinterest</a>
+        </div>
     </div>
 
-    <script>
-        // Data Store
-        var appData = [
-            { nama: "Tutorial Merakit PC (YouTube)", jenis: "Video", fungsi: "Media Edukasi Visual", manfaat: "Memahami cara pasang komponen hardware" },
-            { nama: "Video Trik CMD & Jaringan (TikTok)", jenis: "Video Pendek", fungsi: "Edukasi Singkat", manfaat: "Mengetahui shortcut komputer dengan cepat" },
-            { nama: "Infografis Cyber Security (Instagram)", jenis: "Gambar / Teks", fungsi: "Penyebaran Informasi", manfaat: "Meningkatkan kewaspadaan terhadap phising" },
-            { nama: "Podcast Tren Teknologi (Spotify)", jenis: "Audio", fungsi: "Diskusi & Wawasan", manfaat: "Update berita teknologi sambil beraktivitas" },
-            { nama: "Simulasi Jaringan (Cisco Packet Tracer)", jenis: "Aplikasi Interaktif", fungsi: "Media Praktikum Virtual", manfaat: "Memahami topologi jaringan tanpa alat fisik" },
-            { nama: "E-book Modul K3LH (Google Drive)", jenis: "Teks", fungsi: "Referensi Bacaan", manfaat: "Menghemat kertas dan mudah dibaca offline" }
-        ];
+    <div id="audio" class="content-card">
+        <span class="badge">Jenis Konten: Audio</span>
+        <h3>Podcast & Obrolan Digital</h3>
+        <p>Konten suara atau rekaman audio bincang-bincang yang bisa didengarkan kapan saja.</p>
+        
+        <div class="info-box">
+            <strong>Fungsi:</strong> Menyalurkan gelombang suara, percakapan, atau wawancara bincang-bincang melalui platform pemutar audio.<br><br>
+            <strong>Manfaat:</strong> Memungkinkan pengguna mendengarkan wawasan atau hiburan sambil mengerjakan hal lain secara bersamaan (multitasking) tanpa melelahkan mata.
+        </div>
 
-        var currentIndex = 0;
-        var timeout = null;
+        <div class="source-details">
+            <p><strong>Judul Podcast:</strong> Profesor Ini Pernah Kerja di NASA (Podcast Raditya Dika)</p>
+            <p><strong>Aplikasi / Platform:</strong> YouTube Music / Spotify</p>
+            <a class="source-link" href="https://music.youtube.com/watch?v=I5GgjiugBIM&si=qPwfc3SqxPv3NTbf" target="_blank">🔗 Buka Tautan YouTube Music</a>
+        </div>
+    </div>
 
-        function init() {
-            renderSidebar();
-            loadData(0);
+    <div id="video" class="content-card">
+        <span class="badge">Jenis Konten: Video</span>
+        <h3>Instagram Reel (Tutorial Praktis)</h3>
+        <p>Gabungan elemen visual bergerak dan suara untuk menyampaikan informasi atau keterampilan praktis secara audiovisual.</p>
+        
+        <div class="info-box">
+            <strong>Fungsi:</strong> Menampilkan rekaman peristiwa atau demonstrasi secara audiovisual (gabungan visual bergerak dan suara secara langsung).<br><br>
+            <strong>Manfaat:</strong> Memberikan contoh panduan nyata yang mudah ditiru dan dipraktikkan dalam kehidupan sehari-hari (seperti trik memilih buah).
+        </div>
+
+        <div class="source-details">
+            <p><strong>Judul Video:</strong> Trik Milih Buah Enak (oleh Fabio Febriano)</p>
+            <p><strong>Aplikasi / Platform:</strong> Instagram / Browser HP</p>
+            <a class="source-link" href="https://www.instagram.com/reel/DfPTV0BBr5h/" target="_blank">🔗 Buka Tautan Instagram Reel</a>
+        </div>
+    </div>
+
+    <div id="animasi" class="content-card">
+        <span class="badge">Jenis Konten: Animasi</span>
+        <h3>Video Edukasi TikTok</h3>
+        <p>Gambar, objek, atau animasi pergerakan visual digital yang dibuat untuk menjelaskan topik ilmu pengetahuan atau sejarah.</p>
+        
+        <div class="info-box">
+            <strong>Fungsi:</strong> Memvisualisasikan objek, proses abstrak, atau materi sejarah menggunakan pergerakan grafis digital dan karakter kartun.<br><br>
+            <strong>Manfaat:</strong> Membuat proses belajar materi yang sulit atau membosankan jadi jauh lebih seru, menarik, dan mudah dicerna oleh berbagai kalangan.
+        </div>
+
+        <div class="source-details">
+            <p><strong>Judul Video:</strong> Asal-Usul Nama Hari dalam Seminggu</p>
+            <p><strong>Aplikasi / Platform:</strong> TikTok</p>
+            <a class="source-link" href="https://vt.tiktok.com/ZSpBy4gvq/" target="_blank">🔗 Buka Tautan Video TikTok</a>
+        </div>
+    </div>
+
+    <div id="interaktif" class="content-card">
+        <span class="badge">Jenis Konten: Interaktif</span>
+        <h3>Game Online & Kuis Edukasi</h3>
+        <p>Konten digital yang menuntut keterlibatan pengguna serta merespons tindakan atau input secara langsung.</p>
+        
+        <div class="info-box">
+            <strong>Fungsi:</strong> Menuntut keterlibatan aktif pengguna dengan merespons setiap klik, sentuhan, atau input yang diberikan.<br><br>
+            <strong>Manfaat:</strong> Melatih ketangkasan berpikir, menguji pemahaman materi secara langsung lewat permainan, serta meningkatkan keaktifan pengguna.
+        </div>
+
+        <div class="source-details">
+            <p><strong>Contoh Materi:</strong> Kuis Pembelajaran Online / Game Edukasi</p>
+            <p><strong>Aplikasi / Platform:</strong> Browser Web / Google Play Store</p>
+            <a class="source-link" href="https://www.google.com" target="_blank">🔗 Cari Platform Interaktif</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>💡 Dibuat santai untuk belajar santai — Koding dan Kecerdasan Artifisial (KKA)</p>
+        <p>Materi Literasi Konten Digital</p>
+    </footer>
+</div>
+
+<script>
+    function openContent(evt, contentType) {
+        // Sembunyikan semua card
+        var cards = document.getElementsByClassName("content-card");
+        for (var i = 0; i < cards.length; i++) {
+            cards[i].classList.remove("active");
         }
 
-        function renderSidebar() {
-            var list = document.getElementById('node-list');
-            list.innerHTML = '';
-            
-            for (var i = 0; i < appData.length; i++) {
-                var item = appData[i];
-                var btn = document.createElement('button');
-                btn.className = 'node-btn ' + (i === currentIndex ? 'active' : '');
-                
-                var shortName = 'Konten ' + (i + 1);
-                if (item.nama && item.nama.length > 0) {
-                    shortName = item.nama;
-                    if (shortName.length > 15) {
-                        shortName = shortName.split(' ')[0] + '...';
-                    }
-                }
-                
-                btn.innerHTML = '<span style="width: 24px; color: var(--text-muted); font-size: 13px;">#' + (i + 1) + '</span> ' + shortName;
-                
-                // Using closure to capture the correct index
-                (function(index) {
-                    btn.onclick = function() { selectNode(index); };
-                })(i);
-                
-                list.appendChild(btn);
-            }
+        // Nonaktifkan semua tombol
+        var buttons = document.getElementsByClassName("tab-btn");
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
         }
 
-        function selectNode(index) {
-            currentIndex = index;
-            renderSidebar();
-            loadData(index);
-            
-            // Scroll to top of content panel on mobile/small screens
-            document.getElementById('content-panel').scrollTop = 0;
-        }
+        // Tampilkan card & aktifkan tombol terpilih
+        document.getElementById(contentType).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
 
-        function loadData(index) {
-            document.getElementById('panel-title').innerText = 'Analisis Konten #' + (index + 1);
-            document.getElementById('inp-nama').value = appData[index].nama;
-            document.getElementById('inp-jenis').value = appData[index].jenis;
-            document.getElementById('inp-fungsi').value = appData[index].fungsi;
-            document.getElementById('inp-manfaat').value = appData[index].manfaat;
+    function toggleDarkMode() {
+        var currentTheme = document.documentElement.getAttribute("data-theme");
+        if (currentTheme === "dark") {
+            document.documentElement.removeAttribute("data-theme");
+            localStorage.setItem("theme", "light");
+        } else {
+            document.documentElement.setAttribute("data-theme", "dark");
+            localStorage.setItem("theme", "dark");
         }
+    }
 
-        function autoSave() {
-            appData[currentIndex].nama = document.getElementById('inp-nama').value;
-            appData[currentIndex].jenis = document.getElementById('inp-jenis').value;
-            appData[currentIndex].fungsi = document.getElementById('inp-fungsi').value;
-            appData[currentIndex].manfaat = document.getElementById('inp-manfaat').value;
-            
-            var status = document.getElementById('save-status');
-            status.style.opacity = '1';
-            
-            renderSidebar();
-            
-            clearTimeout(timeout);
-            timeout = setTimeout(function() {
-                status.style.opacity = '0';
-            }, 1000);
+    window.onload = function () {
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.setAttribute("data-theme", "dark");
         }
+    };
+</script>
 
-        function showPrintView() {
-            var tbody = document.getElementById('print-tbody');
-            tbody.innerHTML = '';
-            
-            for (var i = 0; i < appData.length; i++) {
-                var item = appData[i];
-                var html = '<tr>';
-                html += '<td style="text-align: center; font-weight: bold;">' + (i + 1) + '</td>';
-                html += '<td>' + (item.nama || '-') + '</td>';
-                html += '<td>' + (item.jenis || '-') + '</td>';
-                html += '<td>' + (item.fungsi || '-') + '</td>';
-                html += '<td>' + (item.manfaat || '-') + '</td>';
-                html += '</tr>';
-                tbody.innerHTML += html;
-            }
-            
-            document.getElementById('print-view').style.display = 'block';
-            window.print();
-        }
-
-        function hidePrintView() {
-            document.getElementById('print-view').style.display = 'none';
-        }
-
-        // Initialize when DOM is ready
-        window.onload = init;
-    </script>
 </body>
 </html>
